@@ -12,5 +12,6 @@
 /* Prototypes: */
 void displayprompt(void);
 void parseinput(char *line, size_t bufsize);
+void execute_command(char **args);
 
 #endif

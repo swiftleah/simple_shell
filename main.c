@@ -17,7 +17,14 @@ int main(void)
 
 	if (input == -1)
 	{
-		perror("Error: End of file reached\n");
+		if (line == NULL || (line[0] == '\0' || line[0] == '\n'))
+		{
+			printf("End of file reached.\n");
+		}
+		else
+		{
+			perror("Error: End of file reached\n");
+		}
 		free(line);
 		return (1);
 	}
