@@ -7,7 +7,6 @@
 
 int main(void)
 {
-	char command[100];
 	char *line = NULL;
 	size_t bufsize = 0;
 	ssize_t input;
@@ -30,6 +29,7 @@ int main(void)
 			free(line);
 			return (1);
 		}
+	}
 		parseinput(line, bufsize);
 		free(line);
 		return (0);
