@@ -6,22 +6,18 @@
  *
  * Return: nothing
  */
-void parseinput(char *line, size_t bufsize)
+void parseinput(char *line)
 {
-	char *token = strtok(line, " ");
-	char **args = malloc(sizeof(char *) * bufsize);
-	int arg_count = 0;
+	int i = 0;
+	char *token = strtok(line, " \n");
 
 	while (token != NULL)
 	{
-		args[arg_count] = token;
-		arg_count++;
-		token = strtok(NULL, " ");
+		args[i] = token;
+		i++;
+		token = strtok(NULL, " \n");
 	}
 
-	args[arg_count] = NULL;
-
-	execute_command(args);
-	free(args);
+	args[i] = NULL;
 }
 

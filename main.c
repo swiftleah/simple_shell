@@ -9,26 +9,28 @@ int main(void)
 {
 	char *line = NULL;
 	size_t bufsize = 0;
-	ssize_t input;
+	int status;
 
-	displayprompt();
-	input = getline(&line, &bufsize, stdin);
-
-	if (input == -1)
+	do
 	{
-		if (line == NULL || (line[0] == '\0' || line[0] == '\n'))
+		displayprompt();
+		if (getline(&line, &bufsize, stdin) == -1)
 		{
-			printf("End of file reached.\n");
+			if (line == NULL || (line[0] == '\0' || line[0] == '\n'))
+			{
+				printf("End of file reached.\n");
+			}
+			else
+			{
+				perror("Error: End of file reached");
+				exit(EXIT_FAILURE);
+			}
 		}
-		else
-		{
-			perror("Error: End of file reached");
-		}
-		free(line);
-		return (1);
-	}
-	parseinput(line, bufsize);
+		parseinput(line);
+		status = execute_command();
+	} while (status);
+
 	free(line);
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
