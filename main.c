@@ -7,31 +7,31 @@
 
 int main(void)
 {
+	char command[100];
 	char *line = NULL;
 	size_t bufsize = 0;
 	ssize_t input;
 
-	displayprompt();
-
-	input = getline(&line, &bufsize, stdin);
-
-	if (input == -1)
+	while (1)
 	{
-		if (line == NULL || (line[0] == '\0' || line[0] == '\n'))
+		displayprompt();
+		input = getline(&line, &bufsize, stdin);
+
+		if (input == -1)
 		{
-			printf("End of file reached.\n");
+			if (line == NULL || (line[0] == '\0' || line[0] == '\n'))
+			{
+				printf("End of file reached.\n");
+			}
+			else
+			{
+				perror("Error: End of file reached\n");
+			}
+			free(line);
+			return (1);
 		}
-		else
-		{
-			perror("Error: End of file reached\n");
-		}
+		parseinput(line, bufsize);
 		free(line);
-		return (1);
-	}
-
-	parseinput(line, bufsize);
-
-	free(line);
-	return (0);
+		return (0);
 }
 
