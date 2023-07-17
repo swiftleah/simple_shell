@@ -20,6 +20,7 @@ int execute_command(void);
 int change_dir(char **args);
 int shell_exit(void);
 int num_builtins(void);
+int print_env(void);
 
 extern char *builtin_str[];
 extern int (*builtin_func[])();

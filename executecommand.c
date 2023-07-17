@@ -11,6 +11,7 @@ int execute_command(void)
 	char *path;
 	char *path_copy;
 	char *dir;
+	int is_builtin = 0;
 
 	if (args[0] == 0)
 	{
@@ -21,9 +22,13 @@ int execute_command(void)
 	{
 		if (strcmp(args[0], builtin_str[i]) == 0)
 		{
+			is_builtin = 1;
 			return (*builtin_func[i])();
 		}
 	}
+	if (is_builtin)
+		return (1);
+
 	if (args[0][0] == '/' || args[0][0] == '.')
 	{
 		if (pid == 0)

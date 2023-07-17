@@ -3,12 +3,14 @@ int num_builtins(void);
 
 char *builtin_str[] = {
 	"cd",
-	"exit"
+	"exit",
+	"env"
 };
 
 int (*builtin_func[]) () = {
 	&change_dir,
-	&shell_exit
+	&shell_exit,
+	&print_env
 };
 
 /**
