@@ -12,15 +12,14 @@ int execute_command(void)
 	char *path_copy;
 	char *dir;
 
-	if (args[0] == 0)
+	if (args[0] == NULL)
 	{
-		perror("Error: Empty Command");
 		return (1);
 	}
 	for (i = 0; i < num_builtins(); i++)
 	{
 		if (strcmp(args[0], builtin_str[i]) == 0)
-			return (*builtin_func[i])();
+			return ((*builtin_func[i])(args));
 	}
 	if (args[0][0] == '/' || args[0][0] == '.')
 	{
@@ -28,6 +27,7 @@ int execute_command(void)
 		{
 			if (execve(args[0], args, NULL) == -1)
 			perror("lsh");
+			exit(EXIT_FAILURE);
 		}
 		else if (pid < 0)
 		perror("lsh");
