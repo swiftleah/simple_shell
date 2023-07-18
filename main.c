@@ -10,15 +10,19 @@ int main(void)
 	char *line = NULL;
 	size_t bufsize = 0;
 	int status;
+	ssize_t line_size;
 
 	do
 	{
 		displayprompt();
-		if (getline(&line, &bufsize, stdin) == -1)
+		line_size = getline(&line, &bufsize, stdin);
+
+		if (line_size == -1)
 		{
 			if (line == NULL || (line[0] == '\0' || line[0] == '\n'))
 			{
 				printf("End of file reached.\n");
+				break;
 			}
 			else
 			{
