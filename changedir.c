@@ -8,7 +8,7 @@ int change_dir(char **args)
 {
 	if (args[1] == NULL)
 	{
-		perror("No such directory");
+		printf("expected argument\n");
 	}
 	else
 	{
@@ -16,7 +16,11 @@ int change_dir(char **args)
 		{
 			perror("Error occured whilst changing directory");
 		}
+		else
+		{
+			setenv("PWD", args[1], 1);
+		}
 	}
-	return (1);
+	return (0);
 }
 

@@ -9,27 +9,13 @@ int main(void)
 {
 	char *line = NULL;
 	size_t bufsize = 0;
-	int status;
 	ssize_t line_size;
+	int i, status, is_builtin = 0;
 
-	do
+	while (1)
 	{
 		displayprompt();
 		line_size = getline(&line, &bufsize, stdin);
-
-		/*if (line_size == -1)
-		{
-			if (line == NULL || (line[0] == '\0' || line[0] == '\n'))
-			{
-				printf("End of file reached.\n");
-				break;
-			}
-			else
-			{
-				perror("Error: End of file reached");
-				exit(EXIT_FAILURE);
-			}
-		}*/
 
 		if (line_size == EOF)
 		{
@@ -40,9 +26,20 @@ int main(void)
 			continue;
 
 		parseinput(line);
-		status = execute_command();
 
-	} while (status);
+		for (i = 0; i < num_builtins(); i++)
+		{
+			if (strcmp(args[0], builtin_str[i]) == 0)
+			{
+				is_builtin = 1;
+				status = (*builtin_func[i])(args);
+				if (status == 0)
+					break;
+			}
+		}
+	if (!is_builtin)
+		execute_command();
+	}
 
 	free(line);
 	return (EXIT_SUCCESS);
