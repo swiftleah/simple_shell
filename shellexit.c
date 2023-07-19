@@ -6,6 +6,6 @@
  */
 int shell_exit(void)
 {
-	return (0);
+	exit(EXIT_SUCCESS);
 }
 
