@@ -17,7 +17,7 @@ int main(void)
 		displayprompt();
 		line_size = getline(&line, &bufsize, stdin);
 
-		if (line_size == -1)
+		/*if (line_size == -1)
 		{
 			if (line == NULL || (line[0] == '\0' || line[0] == '\n'))
 			{
@@ -29,9 +29,19 @@ int main(void)
 				perror("Error: End of file reached");
 				exit(EXIT_FAILURE);
 			}
+		}*/
+
+		if (line_size == EOF)
+		{
+			printf("EOF eached\n");
+			break;
 		}
+		else if (line_size == 1)
+			continue;
+
 		parseinput(line);
 		status = execute_command();
+
 	} while (status);
 
 	free(line);

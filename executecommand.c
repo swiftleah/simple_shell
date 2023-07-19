@@ -16,65 +16,58 @@ int execute_command(void)
 	{
 		return (1);
 	}
+
 	for (i = 0; i < num_builtins(); i++)
 	{
 		if (strcmp(args[0], builtin_str[i]) == 0)
 			return ((*builtin_func[i])(args));
 	}
-	if (args[0][0] == '/' || args[0][0] == '.')
+	if (pid == 0)
 	{
-		if (pid == 0)
+		if (args[0][0] == '/' || args[0][0] == '.')
 		{
 			if (execve(args[0], args, NULL) == -1)
-			perror("lsh");
+			{
+				perror("lsh");
+			}
 			exit(EXIT_FAILURE);
 		}
-		else if (pid < 0)
-		perror("lsh");
 		else
 		{
-			do
-			{
-				waitpid(pid, &status, WUNTRACED);
-			}
-			while (!WIFEXITED(status) && !WIFSIGNALED(status));
-		}
-		return (1);
-	}
-	path = getenv("PATH");
-	path_copy = strdup(path);
-	dir = strtok(path_copy, ":");
+			path = getenv("PATH");
+			path_copy = strdup(path);
+			dir = strtok(path_copy, ":");
 
 	while (dir != NULL)
-	{
-		char command_path[100];
-		snprintf(command_path, sizeof(command_path), "%s/%s", dir, args[0]);
-				if (access(command_path, X_OK) == 0)
-				{
-					if (pid == 0)
-					{
-						if (execve(command_path, args, NULL) == -1)
-						{
-							perror("lsh");
-						}
-						exit(EXIT_FAILURE);
-					}
-					else if (pid < 0)
-					perror("lsh");
-					else
-					{
-						do
-						{
-							waitpid(pid, &status, WUNTRACED);
-						} while (!WIFEXITED(status) && !WIFSIGNALED(status));
-					}
-					free(path_copy);
-					return 1;
-				}
-				dir = strtok(NULL, ":");
-	}
-	perror("command now found");
+            {
+                char command_path[100];
+                snprintf(command_path, sizeof(command_path), "%s/%s", dir, args[0]);
+
+                if (access(command_path, X_OK) == 0)
+                {
+                    if (execve(command_path, args, NULL) == -1)
+                    {
+                        perror("lsh");
+                    }
+                    exit(EXIT_FAILURE);
+                }
+                dir = strtok(NULL, ":");
+            }
 	free(path_copy);
+	perror("command not found");
+	exit(EXIT_FAILURE);
+		}
+	}
+	else if (pid < 0)
+	{
+		perror("lsh");
+	}
+	else
+	{
+		do
+		{
+			waitpid(pid, &status, WUNTRACED);
+        } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+    }
 	return (1);
 }
-
