@@ -6,9 +6,45 @@
  */
 int change_dir(char **args)
 {
-	if (args[1] == NULL)
+	pid_t pid = fork();
+
+	if (pid == 0)
 	{
-		printf("expected argument\n");
+		char *path = args[1];
+		
+		if (path == NULL)
+		{
+			path = getenv("HOME");
+		}
+
+		if (chdir(path) != 0)
+		{
+			perror("Error");
+		}
+		else
+		{
+			setenv("PWD", path, 1);
+		}
+		exit(EXIT_SUCCESS);
+	}
+	else if (pid < 0)
+	{
+		perror("Error");
+	}
+	else
+	{
+		waitpid(pid, NULL, 0);
+	}
+
+	/*if (args[1] == NULL)
+	{
+		home_dir = getenv("HOME");
+		if (chdir(home_dir) != 0)
+			perror("Error");
+		else
+		{
+			setenv("PWD", home_dir, 1);
+		}
 	}
 	else
 	{
@@ -20,7 +56,7 @@ int change_dir(char **args)
 		{
 			setenv("PWD", args[1], 1);
 		}
-	}
-	return (0);
+	}*/
+	return (1);
 }
 
