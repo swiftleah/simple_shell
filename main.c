@@ -10,7 +10,7 @@ int main(void)
 	char *line = NULL;
 	size_t bufsize = 0;
 	ssize_t line_size;
-	int i, status, is_builtin = 0;
+	int i;
 
 	while (1)
 	{
@@ -27,18 +27,27 @@ int main(void)
 
 		parseinput(line);
 
-		for (i = 0; i < num_builtins(); i++)
+		if (args[0] == NULL)
 		{
-			if (strcmp(args[0], builtin_str[i]) == 0)
-			{
-				is_builtin = 1;
-				status = (*builtin_func[i])(args);
-				if (status == 0)
-					break;
-			}
+			continue;
 		}
-	if (!is_builtin)
-		execute_command();
+		else if (strcmp(args[0], "cd") == 0)
+		{
+			change_dir(args);
+		}
+		else
+		{
+			for (i = 0; i < num_builtins(); i++)
+			{
+				if (strcmp(args[0], builtin_str[i]) == 0)
+				{
+					(*builtin_func[i])(args);
+					break;
+				}
+			}
+			if (i == num_builtins())
+				execute_command();
+		}
 	}
 
 	free(line);

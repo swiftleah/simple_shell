@@ -6,57 +6,27 @@
  */
 int change_dir(char **args)
 {
-	pid_t pid = fork();
+	char *path = args[1];
+	char cwd[1024];
 
-	if (pid == 0)
-	{
-		char *path = args[1];
-		
-		if (path == NULL)
-		{
-			path = getenv("HOME");
-		}
+	    if (path == NULL)
+	    {
+		    path = getenv("HOME");
+		    if (path == NULL)
+		    {
+			    printf("HOME environment variable not set.\n");
+			    return 1;
+		    }
+	    }
 
-		if (chdir(path) != 0)
-		{
-			perror("Error");
-		}
-		else
-		{
-			setenv("PWD", path, 1);
-		}
-		exit(EXIT_SUCCESS);
-	}
-	else if (pid < 0)
-	{
-		perror("Error");
-	}
-	else
-	{
-		waitpid(pid, NULL, 0);
-	}
+    if (chdir(path) != 0)
+    {
+        printf("error\n");
+        return 1;
+    }
+    if (getcwd(cwd, sizeof(cwd)) != NULL)
+	    setenv("PWD", cwd, 1);
 
-	/*if (args[1] == NULL)
-	{
-		home_dir = getenv("HOME");
-		if (chdir(home_dir) != 0)
-			perror("Error");
-		else
-		{
-			setenv("PWD", home_dir, 1);
-		}
-	}
-	else
-	{
-		if(chdir(args[1]) != 0)
-		{
-			perror("Error occured whilst changing directory");
-		}
-		else
-		{
-			setenv("PWD", args[1], 1);
-		}
-	}*/
 	return (1);
 }
 
