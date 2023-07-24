@@ -28,13 +28,11 @@ int main(void)
 		parseinput(line);
 
 		if (args[0] == NULL)
-		{
 			continue;
-		}
 		else if (strcmp(args[0], "cd") == 0)
-		{
 			change_dir(args);
-		}
+		else if (strcmp(args[0], "exit") == 0)
+			shell_exit(args);
 		else
 		{
 			for (i = 0; i < num_builtins(); i++)
@@ -49,7 +47,6 @@ int main(void)
 				execute_command();
 		}
 	}
-
 	free(line);
 	return (EXIT_SUCCESS);
 }

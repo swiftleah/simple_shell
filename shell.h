@@ -18,7 +18,7 @@ void displayprompt(void);
 void parseinput(char *line);
 int execute_command(void);
 int change_dir(char **args);
-int shell_exit(void);
+int shell_exit(char **args);
 int num_builtins(void);
 int print_env(void);
 
