@@ -2,6 +2,7 @@
 #define SHELL_H
 
 #define MAX_LIST 100
+#define BUFFER_SIZE 1024
 
 char *args[MAX_LIST];
 
@@ -21,6 +22,7 @@ int change_dir(char **args);
 int shell_exit(char **args);
 int num_builtins(void);
 int print_env(void);
+ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream);
 
 extern char *builtin_str[];
 extern int (*builtin_func[])();

@@ -15,7 +15,7 @@ int main(void)
 	while (1)
 	{
 		displayprompt();
-		line_size = getline(&line, &bufsize, stdin);
+		line_size = custom_getline(&line, &bufsize, stdin);
 
 		if (line_size == EOF)
 		{
