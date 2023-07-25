@@ -6,7 +6,7 @@
 int print_env(void)
 {
 	int i;
-	extern char **environ;
+	char **environ = NULL;
 
 	for (i = 0; environ[i] != NULL; i++)
 	{

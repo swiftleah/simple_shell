@@ -2,7 +2,6 @@
 /**
  * parseinput - tokenizes input from user
  * @line: char pointer
- * @bufsize: buffer size
  *
  * Return: nothing
  */
