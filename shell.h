@@ -17,7 +17,11 @@ char *args[MAX_LIST];
 /* Prototypes: */
 void displayprompt(void);
 void parseinput(char *line);
+/* Execute command: */
 int execute_command(void);
+char *find_command_path(const char *command);
+int execute_command_path(const char *command_path, char *const args[]);
+
 int change_dir(char **args);
 int shell_exit(char **args);
 int num_builtins(void);
