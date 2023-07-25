@@ -1,6 +1,6 @@
 #include "shell.h"
 /**
- * displayprompt: displays '$' prompt for user input
+ * displayprompt - displays '$' prompt for user input
  *
  * Return: nothing
  */
