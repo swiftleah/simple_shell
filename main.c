@@ -24,9 +24,7 @@ int main(void)
 		}
 		else if (line_size == 1)
 			continue;
-
 		parseinput(line);
-
 		if (args[0] == NULL)
 			continue;
 		else if (strcmp(args[0], "cd") == 0)
