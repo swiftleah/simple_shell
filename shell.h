@@ -29,7 +29,8 @@ int print_env(void);
 /* Custom Getline: */
 ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream);
 void initialize_lineptr(char **lineptr, size_t *n);
-ssize_t read_buffer(char **lineptr, char buffer[], size_t *buffer_index, ssize_t *bytes_in_buffer, int *found_newline, FILE *stream);
+ssize_t read_buffer(char **lineptr, char buffer[], size_t *buffer_index,
+		ssize_t *bytes_in_buffer, int *found_newline, FILE *stream);
 int expand_lineptr(char **lineptr, size_t *n);
 
 extern char *builtin_str[];
