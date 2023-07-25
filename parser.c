@@ -2,7 +2,7 @@
 /**
  * parseinput - tokenizes input from user
  * @line: char pointer
- *
+ * @args: pointer to argument
  * Return: nothing
  */
 void parseinput(char *line, char *args[MAX_LIST])

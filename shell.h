@@ -15,6 +15,8 @@ extern char **environ;
 #include <sys/wait.h>
 
 /* Prototypes: */
+void process_input(void);
+void execute_args(char *args[MAX_LIST]);
 void displayprompt(void);
 void parseinput(char *line, char *args[MAX_LIST]);
 /* Execute command: */
@@ -32,6 +34,8 @@ void initialize_lineptr(char **lineptr, size_t *n);
 ssize_t read_buffer(char **lineptr, char buffer[], size_t *buffer_index,
 		ssize_t *bytes_in_buffer, int *found_newline, FILE *stream);
 int expand_lineptr(char **lineptr, size_t *n);
+int set_env(char **args);
+int unset_env(char **args);
 
 extern char *builtin_str[];
 extern int (*builtin_func[])();
