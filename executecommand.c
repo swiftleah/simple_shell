@@ -1,11 +1,11 @@
 #include "shell.h"
 /**
  * execute_command - executes command
- *
+ * @args: arguments
  * Return: 1
  */
 
-int execute_command(void)
+int execute_command(char *args[MAX_LIST])
 {
 	pid_t pid = fork();
 	int i, status;

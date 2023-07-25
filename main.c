@@ -11,6 +11,7 @@ int main(void)
 	size_t bufsize = 0;
 	ssize_t line_size;
 	int i;
+	char *args[MAX_LIST];
 
 	while (1)
 	{
@@ -19,12 +20,11 @@ int main(void)
 
 		if (line_size == EOF)
 		{
-			printf("EOF eached\n");
 			break;
 		}
 		else if (line_size == 1)
 			continue;
-		parseinput(line);
+		parseinput(line, args);
 		if (args[0] == NULL)
 			continue;
 		else if (strcmp(args[0], "cd") == 0)
@@ -42,7 +42,7 @@ int main(void)
 				}
 			}
 			if (i == num_builtins())
-				execute_command();
+				execute_command(args);
 		}
 	}
 	free(line);

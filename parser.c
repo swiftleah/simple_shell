@@ -5,7 +5,7 @@
  *
  * Return: nothing
  */
-void parseinput(char *line)
+void parseinput(char *line, char *args[MAX_LIST])
 {
 	int i = 0;
 	char *token = strtok(line, " \n");

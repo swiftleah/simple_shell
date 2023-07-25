@@ -5,7 +5,6 @@
 #define BUFFER_SIZE 1024
 
 extern char **environ;
-char *args[MAX_LIST];
 
 /* Libraries: */
 #include <stdio.h>
@@ -17,9 +16,9 @@ char *args[MAX_LIST];
 
 /* Prototypes: */
 void displayprompt(void);
-void parseinput(char *line);
+void parseinput(char *line, char *args[MAX_LIST]);
 /* Execute command: */
-int execute_command(void);
+int execute_command(char *args[MAX_LIST]);
 char *find_command_path(const char *command);
 int execute_command_path(const char *command_path, char *const args[]);
 
