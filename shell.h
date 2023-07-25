@@ -4,6 +4,7 @@
 #define MAX_LIST 100
 #define BUFFER_SIZE 1024
 
+extern char **environ;
 char *args[MAX_LIST];
 
 /* Libraries: */
