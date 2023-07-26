@@ -1,4 +1,7 @@
 #include "main.h"
+
+volatile sig_atomic_t sigint_received = 0;
+
 /**
  * process_input - processes input from user
  * Return: nothing
@@ -12,20 +15,27 @@ void process_input(void)
 
 	while (1)
 	{
+		if (sigint_received)
+		{
+			printf("RETURN");
+			return;
+		}
+
 		line = NULL;
 
 		displayprompt();
+
 		line_size = custom_getline(&line, &bufsize, stdin);
 
 		if (line_size == EOF)
 			break;
-		else if (line_size == 1)
-			continue;
-		parseinput(line, args);
+		else if (line_size > 0)
+			parseinput(line, args);
 		if (args[0] == NULL)
 			continue;
 		else
 			execute_args(args);
+
 		free(line);
 	}
 }
@@ -67,7 +77,19 @@ void execute_args(char *args[MAX_LIST])
  */
 int main(void)
 {
+	signal(SIGINT, handle_sigint);
+
 	process_input();
 	return (EXIT_SUCCESS);
+}
+
+void handle_sigint(int sig)
+{
+	if (sig == SIGINT)
+	{
+	write(STDOUT_FILENO, "\nCaught interrupt signal, exiting\n", 33);
+	sigint_received = 1;
+	exit(0);
+	}
 }
 

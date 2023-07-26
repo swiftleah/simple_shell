@@ -4,8 +4,6 @@
 #define MAX_LIST 100
 #define BUFFER_SIZE 1024
 
-extern char **environ;
-
 /* Libraries: */
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,6 +11,9 @@ extern char **environ;
 #include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <signal.h>
+
+extern char **environ;
 
 /* Prototypes: */
 void process_input(void);
@@ -36,6 +37,7 @@ ssize_t read_buffer(char **lineptr, char buffer[], size_t *buffer_index,
 int expand_lineptr(char **lineptr, size_t *n);
 int set_env(char **args);
 int unset_env(char **args);
+void handle_sigint(int sig);
 
 extern char *builtin_str[];
 extern int (*builtin_func[])();
