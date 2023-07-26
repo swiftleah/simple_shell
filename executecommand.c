@@ -104,3 +104,4 @@ int execute_command_path(const char *command_path, char *const args[])
 	}
 	exit(EXIT_FAILURE);
 }
+
