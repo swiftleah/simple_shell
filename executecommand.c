@@ -60,21 +60,31 @@ char *find_command_path(const char *command)
 	char *path = getenv("PATH");
 	char *path_copy = strdup(path);
 	char *dir = strtok(path_copy, ":");
+	char command_path[100];
+	size_t dir_len;
+	size_t command_len;
+
+	if (access(command, X_OK) == 0)
+		return (strdup(command));
 
 	while (dir != NULL)
 	{
-		char command_path[100];
+		dir_len = strlen(dir);
+		command_len = strlen(command);
 
-		snprintf(command_path, sizeof(command_path), "%s/%s", dir, command);
-
-		if (access(command_path, X_OK) == 0)
+		if (dir_len + command_len + 1 < sizeof(command_path))
 		{
-			free(path_copy);
-			return (strdup(command_path));
+			strcpy(command_path, dir);
+			strcat(command_path, "/");
+			strcat(command_path, command);
+			if (access(command_path, X_OK) == 0)
+			{
+				free(path_copy);
+				return (strdup(command_path));
+			}
 		}
 		dir = strtok(NULL, ":");
 	}
-
 	free(path_copy);
 	return (NULL);
 }
