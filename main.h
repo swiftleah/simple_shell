@@ -2,7 +2,7 @@
 #define MAIN_H
 
 #define MAX_LIST 100
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 10000
 #define MAX_BUFFER_LENGTH 1024
 #define MAX_ARGS 100
 #define MAX_ARG_LENGTH 50
