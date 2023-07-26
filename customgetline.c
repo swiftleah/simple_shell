@@ -15,7 +15,10 @@ ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream)
 	int found_newline = 0;
 
 	if (lineptr == NULL || n == NULL)
+	{
+		printf("returning");
 		return (-1);
+	}
 	initialize_lineptr(lineptr, n);
 
 	total_bytes_read = 0;
@@ -86,7 +89,6 @@ ssize_t read_buffer(char **lineptr, char buffer[], size_t *buffer_index,
 
 	if (c == '\n')
 		*found_newline = 1;
-	free(lineptr);
 	return (*buffer_index);
 }
 /**
