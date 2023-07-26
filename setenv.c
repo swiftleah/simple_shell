@@ -14,7 +14,7 @@ int set_env(char **args)
 	if (setenv(args[1], args[2], 1) == -1)
 	{
 		write(STDERR_FILENO, "setenv error\n", 13);
-		return (1);
+		return (-1);
 	}
 	return (1);
 }
