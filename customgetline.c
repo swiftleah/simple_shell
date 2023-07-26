@@ -86,7 +86,7 @@ ssize_t read_buffer(char **lineptr, char buffer[], size_t *buffer_index,
 
 	if (c == '\n')
 		*found_newline = 1;
-
+	free(lineptr);
 	return (*buffer_index);
 }
 /**
