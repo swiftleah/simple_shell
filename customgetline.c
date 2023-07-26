@@ -15,10 +15,7 @@ ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream)
 	int found_newline = 0;
 
 	if (lineptr == NULL || n == NULL)
-	{
-		printf("returning");
 		return (-1);
-	}
 	initialize_lineptr(lineptr, n);
 
 	total_bytes_read = 0;
@@ -28,11 +25,17 @@ ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream)
 		total_bytes_read = read_buffer(lineptr, buffer, &buffer_index,
 				&bytes_in_buffer, &found_newline, stream);
 		if (total_bytes_read < 0)
+		{
+			free(lineptr);
 			return (-1);
+		}
 		if (total_bytes_read >= (ssize_t)(*n))
 		{
 			if (expand_lineptr(lineptr, n) == -1)
+			{
+				free(lineptr);
 				return (-1);
+			}
 		}
 	}
 	(*lineptr)[total_bytes_read] = '\0';
@@ -101,11 +104,13 @@ int expand_lineptr(char **lineptr, size_t *n)
 {
 	*n += BUFFER_SIZE;
 	*lineptr = (char *)realloc(*lineptr, *n);
+	printf("Realloced");
 	if (*lineptr == NULL)
 	{
 		perror("Realloc Error");
 		return (-1);
 	}
+	free(lineptr);
 	return (0);
 }
 

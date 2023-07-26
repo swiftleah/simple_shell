@@ -12,6 +12,8 @@ void process_input(void)
 
 	while (1)
 	{
+		line = NULL;
+
 		displayprompt();
 		line_size = custom_getline(&line, &bufsize, stdin);
 
@@ -24,8 +26,8 @@ void process_input(void)
 			continue;
 		else
 			execute_args(args);
+		free(line);
 	}
-	free(line);
 }
 /**
  * execute_args - executes builtin or command
