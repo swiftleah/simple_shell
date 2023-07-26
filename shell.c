@@ -12,7 +12,6 @@ void process_input(int show_prompt)
 	size_t bufsize = 0;
 	ssize_t line_size;
 	char *args[MAX_LIST];
-	char newline = '\n';
 
 	while (1)
 	{
@@ -40,7 +39,6 @@ void process_input(int show_prompt)
 		free(line);
 		if (show_prompt == 0)
 		{
-			write(STDOUT_FILENO, &newline, 1);
 			return;
 		}
 	}

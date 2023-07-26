@@ -26,14 +26,14 @@ ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream)
 				&bytes_in_buffer, &found_newline, stream);
 		if (total_bytes_read < 0)
 		{
-			free(lineptr);
+			free(*lineptr);
 			return (-1);
 		}
 		if (total_bytes_read >= (ssize_t)(*n))
 		{
 			if (expand_lineptr(lineptr, n) == -1)
 			{
-				free(lineptr);
+				free(*lineptr);
 				return (-1);
 			}
 		}
