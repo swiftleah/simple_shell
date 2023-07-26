@@ -98,6 +98,8 @@ char *find_command_path(const char *command)
 
 int execute_command_path(char *command_path, char *const args[])
 {
+	if (execve(command_path, args, environ) == -1)
+		perror("lsh");
 	if (execve(command_path, args, NULL) == -1)
 	{
 		perror("lsh");
