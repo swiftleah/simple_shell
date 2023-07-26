@@ -3,6 +3,9 @@
 
 #define MAX_LIST 100
 #define BUFFER_SIZE 1024
+#define MAX_BUFFER_LENGTH 1024
+#define MAX_ARGS 100
+#define MAX_ARG_LENGTH 50
 
 /* Libraries: */
 #include <stdio.h>
@@ -16,9 +19,9 @@
 extern char **environ;
 
 /* Prototypes: */
-void process_input(void);
+void process_input(int show_prompt);
 void execute_args(char *args[MAX_LIST]);
-void displayprompt(void);
+void displayprompt(int show_prompt);
 void parseinput(char *line, char *args[MAX_LIST]);
 /* Execute command: */
 int execute_command(char *args[MAX_LIST]);
@@ -38,6 +41,7 @@ int expand_lineptr(char **lineptr, size_t *n);
 int set_env(char **args);
 int unset_env(char **args);
 void handle_sigint(int sig);
+void process_args(int argc, char *argv[]);
 
 extern char *builtin_str[];
 extern int (*builtin_func[])();
