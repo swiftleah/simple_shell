@@ -104,13 +104,11 @@ int expand_lineptr(char **lineptr, size_t *n)
 {
 	*n += BUFFER_SIZE;
 	*lineptr = (char *)realloc(*lineptr, *n);
-	printf("Realloced");
 	if (*lineptr == NULL)
 	{
 		perror("Realloc Error");
 		return (-1);
 	}
-	free(lineptr);
 	return (0);
 }
 
