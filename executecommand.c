@@ -36,7 +36,7 @@ int execute_command(char *args[MAX_LIST])
 				return (execute_command_path(command_path, args));
 		}
 		perror("command not found");
-		exit(EXIT_FAILURE);
+		return (0);
 	}
 	else if (pid < 0)
 		perror("lsh");
@@ -102,6 +102,7 @@ int execute_command_path(char *command_path, char *const args[])
 	{
 		perror("lsh");
 	}
-	exit(EXIT_FAILURE);
+	return (0);
+	/*exit(EXIT_FAILURE);*/
 }
 
