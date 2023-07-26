@@ -6,7 +6,11 @@
  */
 void displayprompt(void)
 {
-	printf("$ ");
-	fflush(stdout);
+	const char *prompt = "$ ";
+	if (write(STDOUT_FILENO, prompt, strlen(prompt)) < 0)
+	{
+		perror("Error writing prompt");
+		exit(EXIT_FAILURE);
+	}
 }
 
