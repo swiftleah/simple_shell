@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "main.h"
 /**
  * set_env - sets environment
  * @args: double pointer to argument

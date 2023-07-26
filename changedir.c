@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "main.h"
 /**
  * change_dir - changes directory using chdir
  * @args: double pointer to arg

@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "main.h"
 /**
  * displayprompt - displays '$' prompt for user input
  *

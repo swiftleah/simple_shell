@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "main.h"
 int num_builtins(void);
 
 char *builtin_str[] = {

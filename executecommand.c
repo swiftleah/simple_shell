@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "main.h"
 /**
  * execute_command - executes command
  * @args: arguments

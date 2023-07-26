@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "main.h"
 /**
  * custom_getline - getline function
  * @lineptr: double pointer

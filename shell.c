@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "main.h"
 /**
  * process_input - processes input from user
  * Return: nothing
