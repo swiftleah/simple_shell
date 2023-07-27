@@ -24,7 +24,6 @@ void process_input(int show_prompt);
 void execute_args(char *args[MAX_LIST]);
 void displayprompt(int show_prompt);
 void parseinput(char *line, char *args[MAX_LIST]);
-void execute_piped_commands(char *args[MAX_LIST], int pipe_pos);
 /* Execute command: */
 int execute_command(char *args[MAX_LIST]);
 char *find_command_path(const char *command);

@@ -7,7 +7,6 @@
  */
 void process_input(int show_prompt)
 {
-	int i, pipe_pos;
 	char *line = NULL;
 	size_t bufsize = 0;
 	ssize_t line_size;
@@ -17,48 +16,6 @@ void process_input(int show_prompt)
 	while (1)
 	{
 		line = NULL;
-		if (show_prompt && is_terminal)
-			displayprompt(show_prompt);
-
-		line_size = custom_getline(&line, &bufsize, stdin);
-
-		if (line_size == EOF)
-			break;
-
-		else if (line_size > 0)
-			parseinput(line, args);
-
-		if (args[0] == NULL)
-		{
-			free(line);
-			continue;
-		}
-
-		pipe_pos = -1;
-		for (i = 0; args[i] != NULL; i++)
-		{
-			if (strcmp(args[i], "|") == 0)
-			{
-				pipe_pos = i;
-				break;
-			}
-		}
-
-		if (pipe_pos != -1)
-			execute_piped_commands(args, pipe_pos);
-		else
-			execute_args(args);
-		free(line);
-	}
-	free(line);
-	bufsize = 0;
-
-}
-
-/*
-	while (1)
-	{
-		line = NULL;
 
 		if (show_prompt && is_terminal)
 			displayprompt(show_prompt);
@@ -72,29 +29,17 @@ void process_input(int show_prompt)
 			parseinput(line, args);
 		if (args[0] == NULL)
 		{
-			free(line);
 			continue;
 		}
-		pipe_pos = -1;
-
-		for (i = 0; args[i] != NULL; i++)
-		{
-			if (strcmp(args[i], "|") == 0)
-			{
-				pipe_pos = i;
-				break;
-			}
-		}
-		if (pipe_pos != -1)
-			execute_piped_commands(args, pipe_pos);
 		else
 			execute_args(args);
 		free(line);
 		if (!show_prompt && !is_terminal)
-            return;
+		{
+			return;
+		}
 	}
 }
-*/
 /**
  * execute_args - executes builtin or command
  * @args: arguments
