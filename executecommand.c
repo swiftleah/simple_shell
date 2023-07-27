@@ -105,6 +105,5 @@ int execute_command_path(char *command_path, char *const args[])
 		perror("lsh");
 	}
 	return (0);
-	/*exit(EXIT_FAILURE);*/
 }
 

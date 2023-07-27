@@ -13,6 +13,10 @@ int shell_exit(char **args)
 		status = atoi(args[1]);
 		exit(status);
 	}
-	exit(EXIT_SUCCESS);
+	else
+	{
+		exit(EXIT_SUCCESS);
+	}
+	return (0);
 }
 

@@ -4,6 +4,7 @@ volatile sig_atomic_t sigint_received = 0;
 
 /**
  * process_input - processes input from user
+ * @show_prompt: displays prompt using write to stdout
  * Return: nothing
  */
 void process_input(int show_prompt)
@@ -55,7 +56,9 @@ void execute_args(char *args[MAX_LIST])
 	if (strcmp(args[0], "cd") == 0)
 		change_dir(args);
 	else if (strcmp(args[0], "exit") == 0)
+	{
 		shell_exit(args);
+	}
 	else if (strcmp(args[0], "setenv") == 0)
 		set_env(args);
 	else if (strcmp(args[0], "unsetenv") == 0)
@@ -79,11 +82,8 @@ void execute_args(char *args[MAX_LIST])
  * main - main function
  * Return: exit
  */
-int main(int argc, char *argv[])
+int main(void)
 {
-	(void)argv;
-	(void)argc;
-
 	signal(SIGINT, handle_sigint);
 
 	if (isatty(fileno(stdin)))
@@ -93,21 +93,30 @@ int main(int argc, char *argv[])
 	else
 	{
 		process_input(0);
-/*		process_args(argc, argv);*/
 	}
 	return (EXIT_SUCCESS);
 }
-
+/**
+ * handle_sigint - signal handler for Ctrl-C
+ * @sig: int for signal
+ * Return: nothing
+ */
 void handle_sigint(int sig)
 {
 	if (sig == SIGINT)
 	{
 	write(STDOUT_FILENO, "\nCaught interrupt signal, exiting\n", 33);
+	fflush(stdout);
 	sigint_received = 1;
 	exit(0);
 	}
 }
-
+/**
+ * process_args - processes command-line arguments into buffer
+ * @argc: argument count
+ * @argv: argument vector
+ * Return: nothing
+ */
 void process_args(int argc, char *argv[])
 {
 	int i;
@@ -126,7 +135,8 @@ void process_args(int argc, char *argv[])
 
 		arg_len = strlen(argv[i]);
 
-		copy_len = arg_len < max_buffer_length - offset ? arg_len : max_buffer_length - offset - 1;
+		copy_len = arg_len < max_buffer_length - offset ? arg_len : max_buffer_length
+			- offset - 1;
 		strncpy(buffer + offset, argv[i], copy_len);
 		offset += copy_len;
 	}
