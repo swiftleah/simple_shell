@@ -22,7 +22,6 @@ void parseinput(char *line, char *args[MAX_LIST])
 		i++;
 		token = strtok(NULL, " \n");
 	}
-
+	free(token);
 	args[i] = NULL;
 }
-
