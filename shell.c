@@ -11,31 +11,29 @@ void process_input(int show_prompt)
 	size_t bufsize = 0;
 	ssize_t line_size;
 	char *args[MAX_LIST];
+	int is_terminal = isatty(fileno(stdout));
 
 	while (1)
 	{
 		line = NULL;
 
-		displayprompt(show_prompt);
+		if (show_prompt && is_terminal)
+			displayprompt(show_prompt);
 
 		line_size = custom_getline(&line, &bufsize, stdin);
 
 		if (line_size == EOF)
-		{
 			break;
-		}
+
 		else if (line_size > 0)
 			parseinput(line, args);
 		if (args[0] == NULL)
 			continue;
 		else
 			execute_args(args);
-
 		free(line);
-		if (show_prompt == 0)
-		{
+		if (!show_prompt && !is_terminal)
 			return;
-		}
 	}
 }
 /**
@@ -76,13 +74,22 @@ void execute_args(char *args[MAX_LIST])
  * main - main function
  * Return: exit
  */
-int main(void)
+int main(int argc, char *argv[])
 {
+	int show_prompt;
+	
 	signal(SIGINT, handle_sigint);
+	show_prompt = 1;
+
+	if (argc > 1)
+	{
+		if (strcmp(argv[1], "-n") == 0)
+			show_prompt = 0;
+	}
 
 	if (isatty(fileno(stdin)))
 	{
-		process_input(1);
+		process_input(show_prompt);
 	}
 	else
 	{
@@ -97,11 +104,12 @@ int main(void)
  */
 void handle_sigint(int sig)
 {
+	char newline = '\n';
+
 	if (sig == SIGINT)
 	{
-	write(STDOUT_FILENO, "\nCaught interrupt signal, exiting\n", 33);
-	fflush(stdout);
-	exit(0);
+		write(1, &newline, 1);
+		exit(0);
 	}
 }
 /**

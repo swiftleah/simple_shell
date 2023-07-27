@@ -1,4 +1,5 @@
 #include "main.h"
+
 /**
  * custom_getline - getline function
  * @lineptr: double pointer
@@ -47,6 +48,7 @@ ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream)
  * @n: arg
  * Return: nothing
  */
+ 
 void initialize_lineptr(char **lineptr, size_t *n)
 {
 	if (*lineptr == NULL || *n == 0)
