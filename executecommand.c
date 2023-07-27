@@ -60,7 +60,7 @@ char *find_command_path(const char *command)
 	char *path = getenv("PATH");
 	char *path_copy = strdup(path);
 	char *dir = strtok(path_copy, ":");
-	char command_path[100];
+	char command_path[1000];
 	size_t dir_len;
 	size_t command_len;
 
