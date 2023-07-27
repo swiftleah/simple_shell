@@ -1,7 +1,5 @@
 #include "main.h"
 
-volatile sig_atomic_t sigint_received = 0;
-
 /**
  * process_input - processes input from user
  * @show_prompt: displays prompt using write to stdout
@@ -16,9 +14,6 @@ void process_input(int show_prompt)
 
 	while (1)
 	{
-		if (sigint_received)
-			return;
-
 		line = NULL;
 
 		displayprompt(show_prompt);
@@ -106,7 +101,6 @@ void handle_sigint(int sig)
 	{
 	write(STDOUT_FILENO, "\nCaught interrupt signal, exiting\n", 33);
 	fflush(stdout);
-	sigint_received = 1;
 	exit(0);
 	}
 }
