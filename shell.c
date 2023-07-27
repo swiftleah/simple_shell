@@ -72,12 +72,14 @@ void execute_args(char *args[MAX_LIST])
 
 /**
  * main - main function
+ * @argc: argument count
+ * @argv: argument vector
  * Return: exit
  */
 int main(int argc, char *argv[])
 {
 	int show_prompt;
-	
+
 	signal(SIGINT, handle_sigint);
 	show_prompt = 1;
 
