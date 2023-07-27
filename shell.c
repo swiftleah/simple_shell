@@ -17,10 +17,7 @@ void process_input(int show_prompt)
 	while (1)
 	{
 		if (sigint_received)
-		{
-			printf("RETURN");
 			return;
-		}
 
 		line = NULL;
 
@@ -29,7 +26,9 @@ void process_input(int show_prompt)
 		line_size = custom_getline(&line, &bufsize, stdin);
 
 		if (line_size == EOF)
+		{
 			break;
+		}
 		else if (line_size > 0)
 			parseinput(line, args);
 		if (args[0] == NULL)
