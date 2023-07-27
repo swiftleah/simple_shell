@@ -33,6 +33,7 @@ int change_dir(char **args);
 int shell_exit(char **args);
 int num_builtins(void);
 int print_env(void);
+int error_msg(void);
 /* Custom Getline: */
 ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream);
 void initialize_lineptr(char **lineptr, size_t *n);

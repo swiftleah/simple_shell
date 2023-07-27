@@ -30,15 +30,13 @@ int change_dir(char **args)
 	}
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 	{
-		perror("getcwd");
-		return (1);
+		error_msg();
 	}
 	if (chdir(path) != 0)
 	{
-		perror("Error: Directory not found.");
-		return (1);
+		error_msg();
 	}
-	if (strcmp(path, "-") !=0)
+	if (strcmp(path, "-") != 0)
 	{
 		strncpy(prev_dir, cwd, sizeof(prev_dir));
 		prev_dir[sizeof(prev_dir) - 1] = '\0';
@@ -46,9 +44,17 @@ int change_dir(char **args)
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 		setenv("PWD", cwd, 1);
 	else
-	{
 		perror("getcwd");
-	}
+	return (1);
+}
+
+/**
+ * error_msg - prints error message and returns 1
+ * Return: 1
+ */
+int error_msg(void)
+{
+	perror("Error");
 	return (1);
 }
 
