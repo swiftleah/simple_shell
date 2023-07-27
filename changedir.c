@@ -33,7 +33,7 @@ int change_dir(char **args)
 		perror("getcwd");
 		return (1);
 	}
-	strcpy(prev_dir, cwd);
+	strncpy(prev_dir, cwd, sizeof(prev_dir));
 	if (chdir(path) != 0)
 	{
 		perror("Error: Directory not found.");
