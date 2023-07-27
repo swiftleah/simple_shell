@@ -6,7 +6,7 @@
  */
 int change_dir(char **args)
 {
-	char prev_dir[1024] = "";
+	static char prev_dir[1024] = "";
 	char *path = args[1];
 	char cwd[1024];
 
