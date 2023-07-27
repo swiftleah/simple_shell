@@ -3,23 +3,22 @@
 /**
  * custom_getline - getline function
  * @lineptr: double pointer
- * @n: arg
- * @stream: stdout
+ * @n: size of buffer
+ * @stream: stdin
  * Return: total bytes read
  */
 ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream)
 {
-	ssize_t total_bytes_read;
+	ssize_t total_bytes_read = 0;
 	static char buffer[BUFFER_SIZE];
 	static size_t buffer_index;
 	static ssize_t bytes_in_buffer;
 	int found_newline = 0;
+	int is_terminal = isatty(fileno(stream));
 
 	if (lineptr == NULL || n == NULL)
 		return (-1);
 	initialize_lineptr(lineptr, n);
-
-	total_bytes_read = 0;
 	bytes_in_buffer = 0;
 	while (!found_newline)
 	{
@@ -37,6 +36,15 @@ ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream)
 				free(*lineptr);
 				return (-1);
 			}
+		}
+		if (is_terminal && total_bytes_read == 1 && (*lineptr)[0] == '\n')
+			return (0);
+		if (!is_terminal && total_bytes_read == 0 && feof(stream))
+		{
+			if (found_newline)
+				return (0);
+			else
+				return (-1);
 		}
 	}
 	(*lineptr)[total_bytes_read] = '\0';
@@ -76,13 +84,15 @@ ssize_t read_buffer(char **lineptr, char buffer[], size_t *buffer_index,
 		ssize_t *bytes_in_buffer, int *found_newline, FILE *stream)
 {
 	char c;
+	int eof_flag = 0;
 
 	if (*buffer_index >= (size_t)(*bytes_in_buffer))
 	{
 		*bytes_in_buffer = read(fileno(stream), buffer, BUFFER_SIZE);
 		if (*bytes_in_buffer <= 0)
 		{
-			if (*buffer_index == 0)
+			eof_flag = feof(stream);
+			if (*buffer_index == 0 || eof_flag)
 				return (-1);
 			else
 				return (*buffer_index);
@@ -94,6 +104,9 @@ ssize_t read_buffer(char **lineptr, char buffer[], size_t *buffer_index,
 
 	if (c == '\n')
 		*found_newline = 1;
+	if (eof_flag)
+		return (*buffer_index);
+
 	return (*buffer_index);
 }
 /**

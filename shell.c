@@ -8,10 +8,11 @@
 void process_input(int show_prompt)
 {
 	char *line = NULL;
-	size_t bufsize = 0;
-	ssize_t line_size;
 	char *args[MAX_LIST];
+	ssize_t line_size;
+	size_t bufsize = 0;
 	int is_terminal = isatty(fileno(stdout));
+	FILE *input_stream = stdin;
 
 	while (1)
 	{
@@ -19,16 +20,14 @@ void process_input(int show_prompt)
 
 		if (show_prompt && is_terminal)
 			displayprompt(show_prompt);
+		line_size = getline(&line, &bufsize, input_stream);
 
-		line_size = custom_getline(&line, &bufsize, stdin);
-
-		if (line_size == EOF)
+		if (line_size == -1)
 			break;
-
-		else if (line_size > 0)
-			parseinput(line, args);
+		parseinput(line, args);
 		if (args[0] == NULL)
 		{
+			free(line);
 			continue;
 		}
 		else
@@ -36,7 +35,7 @@ void process_input(int show_prompt)
 		free(line);
 		if (!show_prompt && !is_terminal)
 		{
-			return;
+			break;
 		}
 	}
 }
