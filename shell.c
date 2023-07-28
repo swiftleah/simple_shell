@@ -6,16 +6,13 @@
  */
 void process_input(int show_prompt)
 {
-	int exit_status = 0;
-	char *line, *args[MAX_LIST];
+	int exit_status = 0, c, is_terminal = isatty(fileno(stdout));
+	char *line = NULL, *args[MAX_LIST], buffer[BUFFER_SIZE];
 	ssize_t line_size, buffer_index = 0;
-	int c, is_terminal = isatty(fileno(stdout));
 	FILE *input_stream = stdin;
-	char buffer[BUFFER_SIZE];
 
 	while (1)
 	{
-		line = NULL;
 		if (show_prompt && is_terminal)
 			displayprompt(show_prompt);
 		while ((c = fgetc(input_stream)) != EOF)
@@ -31,14 +28,12 @@ void process_input(int show_prompt)
 			break;
 		line_size = buffer_index;
 		buffer_index = 0;
-
 		line = (char *)malloc((line_size + 1) * sizeof(char));
 		if (line == NULL)
 		{
 			perror("Memory allocation failed");
 			exit(EXIT_FAILURE);
 		}
-
 		strncpy(line, buffer, line_size + 1);
 		parseinput(line, args);
 		if (args[0] == NULL)
