@@ -48,6 +48,12 @@ void process_input(int show_prompt)
 			free(line);
 			continue;
 		}
+		else if (strcmp(args[0], "exit") == 0)
+		{
+			shell_exit(args);
+			free(line);
+		}
+
 		else
 			execute_args(args);
 		free(line);
