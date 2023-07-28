@@ -7,11 +7,14 @@
  */
 void process_input(int show_prompt)
 {
-	ssize_t line_size, buffer_index = 0;
-	char *args[MAX_LIST], *line = NULL;
-	int c, is_terminal = isatty(fileno(stdout));
+	char *line = NULL;
+	ssize_t line_size;
+	char *args[MAX_LIST];
+	int is_terminal = isatty(fileno(stdout));
 	FILE *input_stream = stdin;
 	char buffer[BUFFER_SIZE];
+	ssize_t buffer_index = 0;
+	int c;
 
 	while (1)
 	{
