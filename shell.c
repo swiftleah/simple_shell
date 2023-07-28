@@ -31,9 +31,13 @@ void process_input(int show_prompt)
 			break;
 		line_size = buffer_index;
 		buffer_index = 0;
+
 		line = (char *)malloc((line_size + 1) * sizeof(char));
 		if (line == NULL)
+		{
+			perror("Memory allocation failed\n");
 			exit(EXIT_FAILURE);
+		}
 
 		strncpy(line, buffer, line_size + 1);
 		parseinput(line, args);

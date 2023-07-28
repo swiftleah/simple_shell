@@ -24,3 +24,4 @@ void parseinput(char *line, char *args[MAX_LIST])
 	}
 	args[i] = NULL;
 }
+

@@ -21,7 +21,6 @@ extern char **environ;
 extern int exit_status;
 
 /* Prototypes: */
-int shell_exit(char **args);
 void process_input(int show_prompt);
 void execute_args(char *args[MAX_LIST]);
 void displayprompt(int show_prompt);
