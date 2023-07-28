@@ -38,7 +38,7 @@ void process_input(int show_prompt)
 		line = (char *)malloc((line_size + 1) * sizeof(char));
 		if (line == NULL)
 		{
-			perror("Memory allocation failed\n");
+			perror("Memory allocation failed");
 			exit(EXIT_FAILURE);
 		}
 

@@ -28,10 +28,13 @@ int execute_command(char *args[MAX_LIST])
 			return (execute_command_path(command_path, args));
 		}
 		else if (pid < 0)
+		{
+			free(command_path);
 			return (127);
-
+		}
 		else
 		{
+			free(command_path);
 			do {
 				waitpid(pid, &status, WUNTRACED);
 			} while (!WIFEXITED(status) && !WIFSIGNALED(status));
@@ -41,6 +44,7 @@ int execute_command(char *args[MAX_LIST])
 			else
 				return (127);
 		}
+		free(command_path);
 		return (0);
 }
 
@@ -60,7 +64,10 @@ char *find_command_path(const char *command)
 	size_t command_len;
 
 	if (access(command, X_OK) == 0)
+	{
+		free(path_copy);
 		return (strdup(command));
+	}
 
 	while (dir != NULL)
 	{
@@ -99,6 +106,7 @@ int execute_command_path(char *command_path, char *const args[])
 	{
 		perror("lsh");
 	}
+	free(command_path);
 	return (0);
 }
 
