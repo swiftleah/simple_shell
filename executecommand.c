@@ -8,16 +8,7 @@
 int execute_command(char *args[MAX_LIST])
 {
 	pid_t pid = fork();
-	int i, status;
-
-	if (args[0] == NULL)
-		return (1);
-
-	for (i = 0; i < num_builtins(); i++)
-	{
-		if (strcmp(args[0], builtin_str[i]) == 0)
-			return ((*builtin_func[i])(args));
-	}
+	int status;
 
 	if (pid == 0)
 	{
@@ -36,17 +27,21 @@ int execute_command(char *args[MAX_LIST])
 				return (execute_command_path(command_path, args));
 		}
 		perror("command not found");
-		return (0);
+		return (127);
 	}
 	else if (pid < 0)
-		perror("lsh");
+		return (127);
 	else
 	{
 		do {
 			waitpid(pid, &status, WUNTRACED);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
+
+		if (WIFEXITED(status))
+			return (WEXITSTATUS(status));
+		else
+			return (127);
 	}
-	return (1);
 }
 
 /**

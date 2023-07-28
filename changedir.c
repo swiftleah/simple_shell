@@ -15,7 +15,6 @@ int change_dir(char **args)
 		path = getenv("HOME");
 		if (path == NULL)
 		{
-			perror("HOME environment variable not set.");
 			return (1);
 		}
 	}
@@ -23,7 +22,6 @@ int change_dir(char **args)
 	{
 		if (prev_dir[0] == '\0')
 		{
-			perror("Previous directory not available.");
 			return (1);
 		}
 		path = prev_dir;
