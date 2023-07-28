@@ -1,5 +1,5 @@
 #include "main.h"
-
+int exit_status = 0;
 /**
  * process_input - processes input from user
  * @show_prompt: displays prompt using write to stdout
@@ -7,14 +7,11 @@
  */
 void process_input(int show_prompt)
 {
-	char *line = NULL;
-	ssize_t line_size;
-	char *args[MAX_LIST];
-	int is_terminal = isatty(fileno(stdout));
+	char *line, *args[MAX_LIST];
+	ssize_t line_size, buffer_index = 0;
+	int c, is_terminal = isatty(fileno(stdout));
 	FILE *input_stream = stdin;
 	char buffer[BUFFER_SIZE];
-	ssize_t buffer_index = 0;
-	int c;
 
 	while (1)
 	{
@@ -51,7 +48,7 @@ void process_input(int show_prompt)
 		}
 		else if (strcmp(args[0], "exit") == 0)
 		{
-			shell_exit(args);
+			shell_exit(args, exit_status);
 			free(line);
 		}
 		else
@@ -70,12 +67,14 @@ void process_input(int show_prompt)
 void execute_args(char *args[MAX_LIST])
 {
 	int i;
+	int user_exit_code;
 
 	if (strcmp(args[0], "cd") == 0)
 		change_dir(args);
 	else if (strcmp(args[0], "exit") == 0)
 	{
-		shell_exit(args);
+		user_exit_code = atoi(args[1]);
+		shell_exit(args, user_exit_code);
 	}
 	else if (strcmp(args[0], "setenv") == 0)
 		set_env(args);
@@ -92,7 +91,7 @@ void execute_args(char *args[MAX_LIST])
 			}
 		}
 		if (i == num_builtins())
-			execute_command(args);
+			exit_status = execute_command(args);
 	}
 }
 
@@ -123,7 +122,7 @@ int main(int argc, char *argv[])
 	{
 		process_input(0);
 	}
-	return (EXIT_SUCCESS);
+	return (exit_status);
 }
 /**
  * handle_sigint - signal handler for Ctrl-C
