@@ -34,6 +34,7 @@ void process_input(int show_prompt)
 		line = (char *)malloc((line_size + 1) * sizeof(char));
 		if (line == NULL)
 			exit(EXIT_FAILURE);
+
 		strncpy(line, buffer, line_size + 1);
 		parseinput(line, args);
 		if (args[0] == NULL)
@@ -66,7 +67,9 @@ void execute_args(char *args[MAX_LIST])
 	if (strcmp(args[0], "cd") == 0)
 		change_dir(args);
 	else if (strcmp(args[0], "exit") == 0)
+	{
 		shell_exit(args);
+	}
 	else if (strcmp(args[0], "setenv") == 0)
 		set_env(args);
 	else if (strcmp(args[0], "unsetenv") == 0)
@@ -161,3 +164,4 @@ void process_args(int argc, char *argv[])
 	}
 	buffer[offset] = '\0';
 }
+
