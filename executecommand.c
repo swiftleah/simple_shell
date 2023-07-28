@@ -7,41 +7,41 @@
 
 int execute_command(char *args[MAX_LIST])
 {
-	pid_t pid = fork();
+	char *command_path = NULL;
+	pid_t pid;
 	int status;
 
-	if (pid == 0)
-	{
 		if (args[0][0] == '/' || args[0][0] == '.')
-		{
-			char *command_path = find_command_path(args[0]);
-
-			if (command_path != NULL)
-				return (execute_command_path(command_path, args));
-		}
+			command_path = find_command_path(args[0]);
 		else
+			command_path = find_command_path(args[0]);
+		if (command_path == NULL)
 		{
-			char *command_path = find_command_path(args[0]);
-
-			if (command_path != NULL)
-				return (execute_command_path(command_path, args));
-		}
-		perror("command not found");
-		return (127);
-	}
-	else if (pid < 0)
-		return (127);
-	else
-	{
-		do {
-			waitpid(pid, &status, WUNTRACED);
-		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
-
-		if (WIFEXITED(status))
-			return (WEXITSTATUS(status));
-		else
+			perror("command not found");
 			return (127);
-	}
+		}
+
+		pid = fork();
+
+		if (pid == 0)
+		{
+			return execute_command_path(command_path, args);
+		}
+		else if (pid < 0)
+			return (127);
+
+		else
+		{
+			do {
+				waitpid(pid, &status, WUNTRACED);
+			} while (!WIFEXITED(status) && !WIFSIGNALED(status));
+
+			if (WIFEXITED(status))
+				return WEXITSTATUS(status);
+			else
+				return (127);
+		}
+		return (0);
 }
 
 /**
