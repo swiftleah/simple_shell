@@ -7,8 +7,9 @@
 
 int execute_command(char *args[MAX_LIST])
 {
-	pid_t pid = fork();
+	pid_t pid;
 	int i, status;
+	char *command_path = find_command_path(args[0]);
 
 	if (args[0] == NULL)
 		return (1);
@@ -18,35 +19,29 @@ int execute_command(char *args[MAX_LIST])
 		if (strcmp(args[0], builtin_str[i]) == 0)
 			return ((*builtin_func[i])(args));
 	}
+	
+	if (command_path != NULL) {
+		pid = fork();
 
-	if (pid == 0)
-	{
-		if (args[0][0] == '/' || args[0][0] == '.')
-		{
-			char *command_path = find_command_path(args[0]);
-
-			if (command_path != NULL)
-				return (execute_command_path(command_path, args));
-		}
-		else
-		{
-			char *command_path = find_command_path(args[0]);
-
-			if (command_path != NULL)
-				return (execute_command_path(command_path, args));
-		}
-		perror("command not found");
-		return (0);
-	}
-	else if (pid < 0)
-		perror("lsh");
-	else
-	{
-		do {
+		if (pid == 0) {
+		    execute_command_path(command_path, args);
+		    perror("execvp");
+		    return 0;
+		} else if (pid < 0) {
+		    perror("fork");
+		    return 0;
+		} else {
+		    do {
 			waitpid(pid, &status, WUNTRACED);
-		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
-	}
-	return (1);
+		    } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+		}
+
+		free(command_path);
+	    } else {
+		perror("command not found");
+	    }
+
+	    return 1;
 }
 
 /**
