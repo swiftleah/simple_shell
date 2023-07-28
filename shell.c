@@ -8,22 +8,40 @@
 void process_input(int show_prompt)
 {
 	char *line = NULL;
-	char *args[MAX_LIST];
 	ssize_t line_size;
-	size_t bufsize = 0;
+	char *args[MAX_LIST];
 	int is_terminal = isatty(fileno(stdout));
 	FILE *input_stream = stdin;
+	char buffer[BUFFER_SIZE];
+	ssize_t buffer_index = 0;
+	int c;
 
 	while (1)
 	{
 		line = NULL;
-
 		if (show_prompt && is_terminal)
 			displayprompt(show_prompt);
-		line_size = getline(&line, &bufsize, input_stream);
-
-		if (line_size == -1)
+		while ((c = fgetc(input_stream)) != EOF)
+		{
+			if (c == '\n')
+				break;
+			buffer[buffer_index++] = c;
+			if (buffer_index >= BUFFER_SIZE - 1)
+				break;
+		}
+		buffer[buffer_index] = '\0';
+		if (buffer_index == 0 && c == EOF)
 			break;
+		line_size = buffer_index;
+		buffer_index = 0;
+
+		line = (char *)malloc((line_size + 1) * sizeof(char));
+		if (line == NULL)
+		{
+			perror("Memory Allocation Error");
+			exit(EXIT_FAILURE);
+		}
+		strncpy(line, buffer, line_size + 1);
 		parseinput(line, args);
 		if (args[0] == NULL)
 		{
@@ -33,10 +51,8 @@ void process_input(int show_prompt)
 		else
 			execute_args(args);
 		free(line);
-		if (!show_prompt && !is_terminal)
-		{
+		if (!show_prompt && !is_terminal && c == EOF)
 			break;
-		}
 	}
 }
 /**
