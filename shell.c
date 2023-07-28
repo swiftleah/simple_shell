@@ -1,5 +1,4 @@
 #include "main.h"
-int exit_status = 0;
 /**
  * process_input - processes input from user
  * @show_prompt: displays prompt using write to stdout
@@ -7,6 +6,7 @@ int exit_status = 0;
  */
 void process_input(int show_prompt)
 {
+	int exit_status = 0;
 	char *line, *args[MAX_LIST];
 	ssize_t line_size, buffer_index = 0;
 	int c, is_terminal = isatty(fileno(stdout));
@@ -67,7 +67,10 @@ void process_input(int show_prompt)
 void execute_args(char *args[MAX_LIST])
 {
 	int i;
+	int exit_status = 0;
 	int user_exit_code;
+
+	(void)exit_status;
 
 	if (strcmp(args[0], "cd") == 0)
 		change_dir(args);
@@ -103,6 +106,7 @@ void execute_args(char *args[MAX_LIST])
  */
 int main(int argc, char *argv[])
 {
+	int exit_status = 0;
 	int show_prompt;
 
 	signal(SIGINT, handle_sigint);
