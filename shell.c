@@ -15,10 +15,8 @@ void process_input(int show_prompt)
 	{
 		if (show_prompt && is_terminal)
 			displayprompt(show_prompt);
-		while ((c = fgetc(input_stream)) != EOF)
+		while ((c = fgetc(input_stream)) != EOF && c != '\n')
 		{
-			if (c == '\n')
-				break;
 			buffer[buffer_index++] = c;
 			if (buffer_index >= BUFFER_SIZE - 1)
 				break;
