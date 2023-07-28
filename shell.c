@@ -30,10 +30,7 @@ void process_input(int show_prompt)
 		buffer_index = 0;
 		line = (char *)malloc((line_size + 1) * sizeof(char));
 		if (line == NULL)
-		{
-			perror("Memory allocation failed");
-			exit(EXIT_FAILURE);
-		}
+			error_exit();
 		strncpy(line, buffer, line_size + 1);
 		parseinput(line, args);
 		if (args[0] == NULL)

@@ -22,6 +22,7 @@ extern int exit_status;
 
 /* Prototypes: */
 void process_input(int show_prompt);
+void error_exit(void);
 void execute_args(char *args[MAX_LIST]);
 void displayprompt(int show_prompt);
 void parseinput(char *line, char *args[MAX_LIST]);
