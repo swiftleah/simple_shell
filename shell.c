@@ -1,5 +1,4 @@
 #include "main.h"
-int exit_status = 0;
 
 /**
  * process_input - processes input from user
@@ -44,7 +43,7 @@ void process_input(int show_prompt)
 		}
 		else if (strcmp(args[0], "exit") == 0)
 		{
-			shell_exit(args, exit_status);
+			shell_exit(args);
 			free(line);
 		}
 		else
@@ -54,6 +53,7 @@ void process_input(int show_prompt)
 			break;
 	}
 }
+
 /**
  * execute_args - executes builtin or command
  * @args: arguments
@@ -62,15 +62,11 @@ void process_input(int show_prompt)
 void execute_args(char *args[MAX_LIST])
 {
 	int i;
-	int user_exit_code;
 
 	if (strcmp(args[0], "cd") == 0)
 		change_dir(args);
 	else if (strcmp(args[0], "exit") == 0)
-	{
-		user_exit_code = atoi(args[1]);
-		shell_exit(args, user_exit_code);
-	}
+		shell_exit(args);
 	else if (strcmp(args[0], "setenv") == 0)
 		set_env(args);
 	else if (strcmp(args[0], "unsetenv") == 0)
@@ -86,7 +82,7 @@ void execute_args(char *args[MAX_LIST])
 			}
 		}
 		if (i == num_builtins())
-			exit_status = execute_command(args);
+			execute_command(args);
 	}
 }
 
@@ -117,7 +113,7 @@ int main(int argc, char *argv[])
 	{
 		process_input(0);
 	}
-	return (exit_status);
+	return (EXIT_SUCCESS);
 }
 /**
  * handle_sigint - signal handler for Ctrl-C
