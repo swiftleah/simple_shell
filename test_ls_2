@@ -1,2 +1,6 @@
 /bin/ls
 ls -l
+<<<<<<< HEAD
+exit
+=======
+>>>>>>> 8b38ff65cec0a78c2b94be5077a4c58bb129307c
