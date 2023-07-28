@@ -25,7 +25,7 @@ int execute_command(char *args[MAX_LIST])
 
 		if (pid == 0)
 		{
-			return execute_command_path(command_path, args);
+			return (execute_command_path(command_path, args));
 		}
 		else if (pid < 0)
 			return (127);
@@ -37,7 +37,7 @@ int execute_command(char *args[MAX_LIST])
 			} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 
 			if (WIFEXITED(status))
-				return WEXITSTATUS(status);
+				return (WEXITSTATUS(status));
 			else
 				return (127);
 		}

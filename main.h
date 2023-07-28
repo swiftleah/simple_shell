@@ -18,8 +18,10 @@
 #include <stdbool.h>
 
 extern char **environ;
+extern int exit_status;
 
 /* Prototypes: */
+int shell_exit(char **args, int user_exit_code);
 void process_input(int show_prompt);
 void execute_args(char *args[MAX_LIST]);
 void displayprompt(int show_prompt);
@@ -30,7 +32,7 @@ char *find_command_path(const char *command);
 int execute_command_path(char *command_path, char *const args[]);
 
 int change_dir(char **args);
-int shell_exit(char **args);
+int shell_exit(char **args, int user_exit_code);
 int num_builtins(void);
 int print_env(void);
 int error_msg(void);

@@ -2,21 +2,17 @@
 /**
  * shell_exit - exits shell
  * @args: double pointer to arg
+ * @user_exit_code: stores exit code
  * Return: 0
  */
-int shell_exit(char **args)
+int shell_exit(char **args, int user_exit_code)
 {
-	int status;
-
 	if (args[1] != NULL)
 	{
-		status = atoi(args[1]);
-		exit(status);
+		user_exit_code = atoi(args[1]);
 	}
-	else
-	{
-		exit(EXIT_SUCCESS);
-	}
-	return (0);
+	exit_status = user_exit_code;
+	exit(exit_status);
 }
+
 
