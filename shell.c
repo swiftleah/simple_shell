@@ -39,7 +39,6 @@ void process_input(int show_prompt)
 		else if (strcmp(args[0], "exit") == 0)
 		{
 			shell_exit(args, exit_status);
-			free(line);
 		}
 		else
 			execute_args(args);
